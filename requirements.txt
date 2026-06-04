@@ -1,0 +1,29 @@
+# requirements.txt  (fully free local stack — no API keys needed)
+# pip install -r requirements.txt
+
+# LangGraph + LangChain
+langgraph>=0.2.0
+langchain>=0.3.0
+langchain-core>=0.3.0
+langchain-community>=0.3.0
+
+# Ollama LLM (local)
+langchain-ollama>=0.2.0
+
+# Local embeddings (no API key)
+sentence-transformers>=3.0.0
+
+# Vector store (local file)
+langchain-chroma>=0.1.0
+chromadb>=0.5.0
+
+# API layer (Step 3)
+fastapi>=0.115.0
+uvicorn>=0.32.0
+pydantic>=2.9.0
+
+# Chat UI (Step 4)
+streamlit>=1.39.0
+
+# Utilities
+python-dotenv>=1.0.0

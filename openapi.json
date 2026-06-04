@@ -1,0 +1,101 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Equipment Q&A Agent",
+    "description": "LangGraph RAG agent for industrial equipment queries.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://grumpy-cobra-94.loca.lt",
+      "description": "Local tunnel to FastAPI agent"
+    }
+  ],
+  "paths": {
+    "/query": {
+      "post": {
+        "operationId": "QueryEquipmentAgent",
+        "summary": "Ask a question about industrial equipment",
+        "description": "Send a natural language question about equipment failures, maintenance, incidents, or vibration analysis. Returns a detailed answer with source documents.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["question"],
+                "properties": {
+                  "question": {
+                    "type": "string",
+                    "description": "The engineer's natural language question about equipment"
+                  },
+                  "session_id": {
+                    "type": "string",
+                    "description": "Optional session ID for multi-turn memory",
+                    "default": "default"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response from the agent",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "answer": {
+                      "type": "string",
+                      "description": "The agent's full answer with source citations"
+                    },
+                    "sources": {
+                      "type": "array",
+                      "items": {"type": "string"},
+                      "description": "List of source document names used to answer"
+                    },
+                    "retrieval_count": {
+                      "type": "integer",
+                      "description": "Number of document chunks retrieved"
+                    },
+                    "session_id": {
+                      "type": "string",
+                      "description": "Session ID echoed back"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "operationId": "HealthCheck",
+        "summary": "Check if the agent is running",
+        "description": "Returns health status of the agent.",
+        "responses": {
+          "200": {
+            "description": "Agent is healthy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {"type": "string"},
+                    "model": {"type": "string"},
+                    "vector_store": {"type": "string"},
+                    "message": {"type": "string"}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
